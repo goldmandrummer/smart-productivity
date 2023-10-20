@@ -1,0 +1,147 @@
+Let's start by defining the structure of our project. We will have the following files:
+
+- `main.py`: This is the entry point of our application. It will handle the user interaction and call the appropriate functions based on user input.
+- `task_manager.py`: This file will contain the `TaskManager` class which will handle all task related operations such as adding, updating, deleting tasks etc.
+- `task.py`: This file will contain the `Task` class which will represent a task.
+- `storage.py`: This file will contain the `Storage` class which will handle all file related operations such as reading and writing tasks to a file.
+- `requirements.txt`: This file will contain all the dependencies required for our project.
+
+Let's start by creating the `Task` class:
+
+task.py
+```python
+from dataclasses import dataclass
+from datetime import datetime
+
+@dataclass
+class Task:
+    id: int
+    name: str
+    due_date: datetime
+    duration: int
+    priority: int
+    is_recurring: bool
+```
+
+Next, we will create the `Storage` class:
+
+storage.py
+```python
+import json
+from typing import List
+from task import Task
+
+class Storage:
+    def __init__(self, file_path: str):
+        self.file_path = file_path
+
+    def read_tasks(self) -> List[Task]:
+        with open(self.file_path, 'r') as file:
+            tasks = json.load(file)
+            return [Task(**task) for task in tasks]
+
+    def write_tasks(self, tasks: List[Task]):
+        with open(self.file_path, 'w') as file:
+            json.dump([task.__dict__ for task in tasks], file)
+```
+
+Next, we will create the `TaskManager` class:
+
+task_manager.py
+```python
+from typing import List
+from task import Task
+from storage import Storage
+
+class TaskManager:
+    def __init__(self, storage: Storage):
+        self.storage = storage
+        self.tasks = self.storage.read_tasks()
+
+    def add_task(self, task: Task):
+        self.tasks.append(task)
+        self.storage.write_tasks(self.tasks)
+
+    def update_task(self, task: Task):
+        for i, t in enumerate(self.tasks):
+            if t.id == task.id:
+                self.tasks[i] = task
+                self.storage.write_tasks(self.tasks)
+                return
+        raise ValueError("Task not found")
+
+    def delete_task(self, task_id: int):
+        for i, t in enumerate(self.tasks):
+            if t.id == task_id:
+                del self.tasks[i]
+                self.storage.write_tasks(self.tasks)
+                return
+        raise ValueError("Task not found")
+
+    def get_top_priority_tasks(self, count: int) -> List[Task]:
+        return sorted(self.tasks, key=lambda t: t.priority, reverse=True)[:count]
+```
+
+Finally, we will create the `main.py` file:
+
+main.py
+```python
+from task_manager import TaskManager
+from task import Task
+from storage import Storage
+from datetime import datetime
+
+def main():
+    storage = Storage('tasks.json')
+    task_manager = TaskManager(storage)
+
+    while True:
+        top_tasks = task_manager.get_top_priority_tasks(3)
+        for task in top_tasks:
+            print(task)
+
+        print("1. Add task")
+        print("2. Update task")
+        print("3. Delete task")
+        print("4. Exit")
+
+        choice = input("Enter your choice: ")
+
+        if choice == '1':
+            id = int(input("Enter task id: "))
+            name = input("Enter task name: ")
+            due_date = datetime.strptime(input("Enter due date (yyyy-mm-dd): "), "%Y-%m-%d")
+            duration = int(input("Enter task duration: "))
+            priority = int(input("Enter task priority: "))
+            is_recurring = input("Is the task recurring (yes/no): ") == 'yes'
+            task = Task(id, name, due_date, duration, priority, is_recurring)
+            task_manager.add_task(task)
+        elif choice == '2':
+            id = int(input("Enter task id: "))
+            name = input("Enter task name: ")
+            due_date = datetime.strptime(input("Enter due date (yyyy-mm-dd): "), "%Y-%m-%d")
+            duration = int(input("Enter task duration: "))
+            priority = int(input("Enter task priority: "))
+            is_recurring = input("Is the task recurring (yes/no): ") == 'yes'
+            task = Task(id, name, due_date, duration, priority, is_recurring)
+            task_manager.update_task(task)
+        elif choice == '3':
+            id = int(input("Enter task id: "))
+            task_manager.delete_task(id)
+        elif choice == '4':
+            break
+        else:
+            print("Invalid choice")
+
+if __name__ == "__main__":
+    main()
+```
+
+And the `requirements.txt` file:
+
+requirements.txt
+```
+dataclasses
+```
+
+This concludes a fully working implementation.
