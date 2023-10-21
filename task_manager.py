@@ -29,3 +29,21 @@ class TaskManager:
 
     def get_top_priority_tasks(self, count: int) -> List[Task]:
         return sorted(self.tasks, key=lambda t: t.priority, reverse=True)[:count]
+
+    def add_tag(self, task_id: int, tag: str):
+        for task in self.tasks:
+            if task.id == task_id:
+                task.tags.append(tag)
+        self.storage.write_tasks(self.tasks)
+
+    def remove_tag(self, task_id: int, tag: str):
+        for task in self.tasks:
+            if task.id == task_id and tag in task.tags:
+                task.tags.remove(tag)
+        self.storage.write_tasks(self.tasks)
+
+    def update_tag(self, task_id: int, old_tag: str, new_tag: str):
+        for task in self.tasks:
+            if task.id == task_id and old_tag in task.tags:
+                task.tags[task.tags.index(old_tag)] = new_tag
+        self.storage.write_tasks(self.tasks)
