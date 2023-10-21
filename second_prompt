@@ -1,0 +1,1 @@
+Change the task storage to store each task as its own file formatted as a markdown table. The app should use the default directory called "tasks" if none is specified in the arguments of the script (add a new argument for this please).

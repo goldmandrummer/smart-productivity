@@ -1,0 +1,10 @@
+/Users/account1/dev/smart-productivity/init_prompt
+/Users/account1/dev/smart-productivity/main.py
+/Users/account1/dev/smart-productivity/prompt
+/Users/account1/dev/smart-productivity/README.md
+/Users/account1/dev/smart-productivity/requirements.txt
+/Users/account1/dev/smart-productivity/run.sh
+/Users/account1/dev/smart-productivity/storage.py
+/Users/account1/dev/smart-productivity/task.py
+/Users/account1/dev/smart-productivity/task_manager.py
+/Users/account1/dev/smart-productivity/tasks.json

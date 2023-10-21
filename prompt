@@ -1,1 +1,0 @@
-Rather than storing all the tasks in one file with JSON format, store each task as its own file formatted as a markdown table. The app should use a default directory if none is specified.

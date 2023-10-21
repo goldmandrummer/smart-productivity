@@ -1,10 +1,15 @@
+import argparse
 from task_manager import TaskManager
 from task import Task
 from storage import Storage
 from datetime import datetime
 
 def main():
-    storage = Storage('tasks.json')
+    parser = argparse.ArgumentParser(description='Task Manager')
+    parser.add_argument('--dir', default='tasks', help='Directory to store tasks')
+    args = parser.parse_args()
+
+    storage = Storage(args.dir)
     task_manager = TaskManager(storage)
 
     while True:

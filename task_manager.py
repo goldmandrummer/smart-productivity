@@ -23,7 +23,7 @@ class TaskManager:
         for i, t in enumerate(self.tasks):
             if t.id == task_id:
                 del self.tasks[i]
-                self.storage.write_tasks(self.tasks)
+                self.storage.delete_task(task_id)
                 return
         raise ValueError("Task not found")
 
