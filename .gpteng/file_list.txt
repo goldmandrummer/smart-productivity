@@ -5,8 +5,6 @@
 /Users/account1/dev/smart-productivity/run.sh
 /Users/account1/dev/smart-productivity/second_prompt
 /Users/account1/dev/smart-productivity/storage.py
+/Users/account1/dev/smart-productivity/tag_manager.py
 /Users/account1/dev/smart-productivity/task.py
 /Users/account1/dev/smart-productivity/task_manager.py
-/Users/account1/dev/smart-productivity/tasks/1.md
-/Users/account1/dev/smart-productivity/tasks/2.md
-/Users/account1/dev/smart-productivity/tasks/3.md
